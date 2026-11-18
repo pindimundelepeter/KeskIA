@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class KeskIaApplication
+class KeskIAApplication
 
 fun main(args: Array<String>) {
-    runApplication<KeskIaApplication>(*args)
+    runApplication<KeskIAApplication>(*args)
 }

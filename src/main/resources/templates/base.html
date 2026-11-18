@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title} ?: 'KeskIA'">KeskIA</title>
+    <!-- Lien vers Bootstrap local -->
+    <link rel="stylesheet" th:href="@{/vendor/CSS/bootstrap.min.css}">
+</head>
+<body>
+
+<!-- Inclusion du Header -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Contenu dynamique de la page -->
+<div class="container my-4">
+    <div th:replace="${template} ?: _"></div>
+</div>
+
+<!-- Inclusion du Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- Script JS de Bootstrap local -->
+<script th:src="@{/vendor/JS/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
