@@ -1,9 +1,182 @@
 <div th:fragment="content">
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Bienvenue sur KeskIA</h1>
-            <p class="col-md-8 fs-4">Votre application est bien configurée avec le système de templates Thymeleaf et Bootstrap !</p>
-            <a class="btn btn-primary btn-lg" href="/login" role="button">Aller à la connexion</a>
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+
+            <!-- En-tête de session avec logo Omnitrix en haut à gauche -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="omnitrix-logo" title="Omnitrix Core — Galvan Prime">
+                        <!-- Symbole sablier Omnitrix -->
+                        <svg viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="44" fill="none" stroke="#00ff88" stroke-width="5" opacity="0.35"/>
+                            <path d="M22 20 H78 L55 50 L78 80 H22 L45 50 Z" fill="#00ff88"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="azmuth-badge py-1 px-2" style="font-size: 0.72rem;">
+                                <span class="azmuth-dot"></span>
+                                <span>Galvan Prime // Gemini Link</span>
+                            </span>
+                        </div>
+                        <h1 class="h3 fw-bold mb-0">KeskIA </h1>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="button" id="clearChatBtn" class="btn btn-sm btn-outline-success">
+                        Nouvelle discussion
+                    </button>
+                    <a class="btn btn-sm btn-outline-light" th:href="@{/login}">
+                        Connexion
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fil de discussion interactif -->
+            <div class="azmuth-card p-4 mb-4" style="max-height: 460px; overflow-y: auto;" id="chatContainer">
+                <div class="d-flex flex-column gap-4" id="chatMessages">
+
+                    <!-- Message de bienvenue initial -->
+                    <div class="d-flex justify-content-start">
+                        <div class="azmuth-msg-ai col-md-10">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="azmuth-dot"></span>
+                                <strong style="color: var(--azmuth-green);">KeskIA — Azmuth Core</strong>
+                            </div>
+                            <p class="mb-0">
+                                Omnitrix synchronisé. Pose-moi ta question ci-dessous pour démarrer la simulation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Affichage dynamique si le contrôleur Spring Boot renvoie un prompt et une réponse -->
+                    <div th:if="${prompt != null}" class="d-flex justify-content-end">
+                        <div class="azmuth-msg-user col-md-8">
+                            <div class="small azmuth-muted mb-1">Toi • Prompt</div>
+                            <div th:text="${prompt}"></div>
+                        </div>
+                    </div>
+
+                    <div th:if="${reponse != null}" class="d-flex justify-content-start">
+                        <div class="azmuth-msg-ai col-md-10">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="azmuth-dot"></span>
+                                <strong style="color: var(--azmuth-green);" th:text="${modeleSelectionne} ?: 'KeskIA (Gemini)'"></strong>
+                            </div>
+                            <div th:text="${reponse}"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Zone de prompt interactive -->
+            <div class="azmuth-chat-panel">
+                <form id="chatForm" th:action="@{/chat}" method="post">
+                    <div class="row g-2 align-items-center mb-3">
+                        <div class="col-sm-6 col-md-5">
+                            <label for="modelSelect" class="form-label small azmuth-muted mb-1">
+                                Modèle / Fournisseur IA
+                            </label>
+                            <select id="modelSelect" name="modele" class="form-select azmuth-input">
+                                <option value="Gemini (Noyau Principal)" selected>Gemini (Noyau Principal)</option>
+                                <option value="Mistral">Mistral</option>
+                                <option th:each="m : ${modeles}" th:value="${m.nom}" th:text="${m.nom}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <textarea id="promptInput"
+                                  name="prompt"
+                                  class="form-control azmuth-input"
+                                  rows="2"
+                                  placeholder="Pose ta question à KeskIA (Entrée pour envoyer, Maj+Entrée pour aller à la ligne)..."
+                                  required></textarea>
+                        <button type="submit" class="btn btn-azmuth px-4" id="sendBtn">
+                            Envoyer
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
+
+    <!-- Script d'interaction question / réponse -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatForm = document.getElementById('chatForm');
+            const promptInput = document.getElementById('promptInput');
+            const modelSelect = document.getElementById('modelSelect');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatContainer = document.getElementById('chatContainer');
+            const clearChatBtn = document.getElementById('clearChatBtn');
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function appendUserMessage(text) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'd-flex justify-content-end';
+                wrapper.innerHTML = `
+                    <div class="azmuth-msg-user col-md-8">
+                        <div class="small azmuth-muted mb-1">Toi • Prompt</div>
+                        <div>${escapeHtml(text)}</div>
+                    </div>
+                `;
+                chatMessages.appendChild(wrapper);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            function appendAiMessage(modelName, text) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'd-flex justify-content-start';
+                wrapper.innerHTML = `
+                    <div class="azmuth-msg-ai col-md-10">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="azmuth-dot"></span>
+                            <strong style="color: var(--azmuth-green);">${escapeHtml(modelName)}</strong>
+                        </div>
+                        <div>${escapeHtml(text)}</div>
+                    </div>
+                `;
+                chatMessages.appendChild(wrapper);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            promptInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    chatForm.requestSubmit();
+                }
+            });
+
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const prompt = promptInput.value.trim();
+                if (!prompt) return;
+
+                const selectedModel = modelSelect.value;
+                appendUserMessage(prompt);
+                promptInput.value = '';
+
+                setTimeout(() => {
+                    appendAiMessage(
+                        selectedModel,
+                        `[Omnitrix // Réponse simulée]\nPrompt reçu : "${prompt}"\n\nModèle actif : ${selectedModel}. Tu peux brancher ton endpoint POST /chat en Kotlin dès que tu veux passer sur de vraies réponses API.`
+                    );
+                }, 350);
+            });
+
+            clearChatBtn.addEventListener('click', () => {
+                chatMessages.innerHTML = '';
+                appendAiMessage('KeskIA — Azmuth Core', 'Mémoire effacée. Prêt pour une nouvelle requête.');
+            });
+        });
+    </script>
 </div>
