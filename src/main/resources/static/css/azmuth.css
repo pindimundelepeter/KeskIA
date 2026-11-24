@@ -1,0 +1,172 @@
+:root {
+    --azmuth-bg: #070d0a;
+    --azmuth-panel: #0e1a14;
+    --azmuth-panel-light: #13241b;
+    --azmuth-border: rgba(0, 255, 136, 0.28);
+    --azmuth-green: #00ff88;
+    --azmuth-green-dark: #00b862;
+    --azmuth-text: #e6f7ee;
+    --azmuth-muted: #88a898;
+}
+
+body {
+    background-color: var(--azmuth-bg);
+    background-image:
+            radial-gradient(circle at 15% 15%, rgba(0, 255, 136, 0.08), transparent 40%),
+            radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.07), transparent 45%),
+            linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+    color: var(--azmuth-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-wrapper {
+    flex: 1 0 auto;
+}
+
+.azmuth-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--azmuth-border);
+    color: var(--azmuth-green);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.azmuth-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--azmuth-green);
+    box-shadow: 0 0 10px var(--azmuth-green);
+}
+
+.azmuth-card {
+    background: linear-gradient(160deg, var(--azmuth-panel-light) 0%, var(--azmuth-panel) 100%);
+    border: 1px solid var(--azmuth-border);
+    border-top: 3px solid var(--azmuth-green);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(0, 255, 136, 0.08);
+    color: var(--azmuth-text);
+}
+
+.azmuth-muted {
+    color: var(--azmuth-muted) !important;
+}
+
+.btn-azmuth {
+    background: linear-gradient(135deg, var(--azmuth-green) 0%, var(--azmuth-green-dark) 100%);
+    color: #05110b;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 18px rgba(0, 255, 136, 0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-azmuth:hover,
+.btn-azmuth:focus {
+    color: #040d08;
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 0 26px rgba(0, 255, 136, 0.45);
+}
+
+.form-control.azmuth-input {
+    background-color: #08120d;
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    color: var(--azmuth-text);
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
+}
+
+.form-control.azmuth-input::placeholder {
+    color: #5c7d6d;
+}
+
+.form-control.azmuth-input:focus {
+    background-color: #0a1711;
+    border-color: var(--azmuth-green);
+    color: var(--azmuth-text);
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.2);
+}
+/* Console IA & communication avec les modèles (ex. Gemini) */
+.azmuth-chat-panel {
+    background: rgba(8, 18, 13, 0.85);
+    border: 1px solid var(--azmuth-border);
+    border-radius: 14px;
+    padding: 1.25rem;
+}
+
+.azmuth-msg-user {
+    background: rgba(0, 255, 136, 0.12);
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 12px 12px 4px 12px;
+    padding: 0.9rem 1.1rem;
+    color: var(--azmuth-text);
+}
+
+.azmuth-msg-ai {
+    background: var(--azmuth-panel);
+    border-left: 3px solid var(--azmuth-green);
+    border-top: 1px solid rgba(0, 255, 136, 0.15);
+    border-right: 1px solid rgba(0, 255, 136, 0.15);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+    border-radius: 4px 12px 12px 12px;
+    padding: 1rem 1.2rem;
+    color: var(--azmuth-text);
+    white-space: pre-wrap;
+}
+
+.form-select.azmuth-input {
+    background-color: #08120d;
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    color: var(--azmuth-text);
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+}
+
+.form-select.azmuth-input:focus {
+    background-color: #0a1711;
+    border-color: var(--azmuth-green);
+    color: var(--azmuth-text);
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.2);
+}
+
+textarea.form-control.azmuth-input {
+    min-height: 110px;
+    resize: vertical;
+}
+/* Logo Omnitrix en haut à gauche */
+.omnitrix-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #1d3328 0%, #09120e 75%);
+    border: 2.5px solid var(--azmuth-green);
+    box-shadow: 0 0 14px rgba(0, 255, 136, 0.45), inset 0 0 8px rgba(0, 255, 136, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.omnitrix-logo:hover {
+    transform: rotate(18deg) scale(1.05);
+    box-shadow: 0 0 22px rgba(0, 255, 136, 0.75), inset 0 0 10px rgba(0, 255, 136, 0.35);
+}
+
+.omnitrix-logo svg {
+    width: 26px;
+    height: 26px;
+}

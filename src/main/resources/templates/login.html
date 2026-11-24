@@ -1,20 +1,38 @@
 <div th:fragment="content">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h2 class="text-center mb-4">Connexion</h2>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 col-lg-5">
+            <div class="card azmuth-card shadow">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-3">
+                        <span class="azmuth-badge">
+                            <span class="azmuth-dot"></span>
+                            <span>Authentification Galvan</span>
+                        </span>
+                    </div>
+                    <h2 class="text-center fw-bold mb-2">Accès KeskIA</h2>
+                    <p class="text-center azmuth-muted small mb-4">
+                        Identifie-toi pour accéder à la console IA et aux modèles.
+                    </p>
+
                     <!-- Formulaire non fonctionnel pour l'instant -->
                     <form>
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="username" placeholder="Entrez votre nom">
+                            <input type="text"
+                                   class="form-control azmuth-input"
+                                   id="username"
+                                   placeholder="Entrez votre nom (ex. Azmuth)">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" placeholder="Mot de passe">
+                            <input type="password"
+                                   class="form-control azmuth-input"
+                                   id="password"
+                                   placeholder="Mot de passe">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                        <button type="submit" class="btn btn-azmuth w-100 py-2">
+                            Déverrouiller la console
+                        </button>
                     </form>
                 </div>
             </div>
