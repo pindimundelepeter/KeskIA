@@ -32,4 +32,6 @@ class ModeleIA(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fournisseur_ia_id", nullable = false)
     var fournisseurIA: FournisseurIA
-)
+) {
+    val fourniseurIA: Any
+}

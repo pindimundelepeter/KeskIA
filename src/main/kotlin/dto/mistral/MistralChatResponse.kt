@@ -1,4 +1,6 @@
 package dto.mistral
 
-class MistralChatResponse {
-}
+data class MistralChatResponse(
+    val id: String? = null,
+    val choices: List<MistralChoice> = emptyList()
+)
